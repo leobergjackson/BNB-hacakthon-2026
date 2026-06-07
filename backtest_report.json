@@ -1,0 +1,132 @@
+{
+  "initialCapital": 1000,
+  "finalValue": 995.9,
+  "totalReturn": "-0.41%",
+  "maxDrawdown": "-0.41%",
+  "sharpeRatio": -68.34,
+  "totalTrades": 8,
+  "winRate": "N/A",
+  "vsBenchmark": "-7.03% alpha over BNB hold",
+  "equityCurve": [
+    {
+      "timestamp": 1780720190145,
+      "value": 1000,
+      "drawdown": 0
+    },
+    {
+      "timestamp": 1780723790145,
+      "value": 1000,
+      "drawdown": 0
+    },
+    {
+      "timestamp": 1780727390145,
+      "value": 1000,
+      "drawdown": 0
+    },
+    {
+      "timestamp": 1780730990145,
+      "value": 1000,
+      "drawdown": 0
+    },
+    {
+      "timestamp": 1780734590145,
+      "value": 1000,
+      "drawdown": 0
+    },
+    {
+      "timestamp": 1780738190145,
+      "value": 1000,
+      "drawdown": 0
+    },
+    {
+      "timestamp": 1780741790145,
+      "value": 1000,
+      "drawdown": 0
+    },
+    {
+      "timestamp": 1780745390145,
+      "value": 1000,
+      "drawdown": 0
+    },
+    {
+      "timestamp": 1780748990145,
+      "value": 1000,
+      "drawdown": 0
+    },
+    {
+      "timestamp": 1780752590145,
+      "value": 1000,
+      "drawdown": 0
+    },
+    {
+      "timestamp": 1780756190145,
+      "value": 1000,
+      "drawdown": 0
+    },
+    {
+      "timestamp": 1780759790145,
+      "value": 999.49,
+      "drawdown": 0.05
+    },
+    {
+      "timestamp": 1780763390145,
+      "value": 998.98,
+      "drawdown": 0.1
+    },
+    {
+      "timestamp": 1780766990145,
+      "value": 998.98,
+      "drawdown": 0.1
+    },
+    {
+      "timestamp": 1780770590145,
+      "value": 998.47,
+      "drawdown": 0.15
+    },
+    {
+      "timestamp": 1780774190145,
+      "value": 997.96,
+      "drawdown": 0.2
+    },
+    {
+      "timestamp": 1780777790145,
+      "value": 997.45,
+      "drawdown": 0.26
+    },
+    {
+      "timestamp": 1780781390145,
+      "value": 996.93,
+      "drawdown": 0.31
+    },
+    {
+      "timestamp": 1780784990145,
+      "value": 996.43,
+      "drawdown": 0.36
+    },
+    {
+      "timestamp": 1780788590145,
+      "value": 996.43,
+      "drawdown": 0.36
+    },
+    {
+      "timestamp": 1780792190145,
+      "value": 996.43,
+      "drawdown": 0.36
+    },
+    {
+      "timestamp": 1780795790145,
+      "value": 995.9,
+      "drawdown": 0.41
+    },
+    {
+      "timestamp": 1780799390145,
+      "value": 995.9,
+      "drawdown": 0.41
+    },
+    {
+      "timestamp": 1780802990145,
+      "value": 995.9,
+      "drawdown": 0.41
+    }
+  ]
+}
