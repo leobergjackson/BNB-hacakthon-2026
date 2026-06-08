@@ -5,6 +5,7 @@ node_modules/
 .env
 .env.local
 .env.*.local
+*.env
 
 # Logs
 logs/
@@ -16,3 +17,19 @@ logs.json
 Thumbs.db
 .idea/
 .vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+
+# Next.js
+.next/
+
+# Data caches
+data/cache/
+*.parquet
+*.csv

@@ -1,0 +1,95 @@
+/* ───────────────────────────────────────────────────────────────
+   EMOTIONAL DUALITY — HERO NAV  (BNB HACK: black + gold)
+   Shared treatments (.hero-bg, .grain, .gradient-text, .btn-gradient,
+   .btn-ghost, .live-dot) live in globals.css. This file is nav-only.
+   ─────────────────────────────────────────────────────────────── */
+
+.edi-nav {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 22px 24px;
+}
+
+.edi-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: #eaecef;
+  text-decoration: none;
+}
+
+.edi-logo-tile {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, #f0b90b, #fcd535);
+  box-shadow: 0 6px 18px -6px rgba(240, 185, 11, 0.7);
+}
+
+.edi-logo-badge {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(240, 185, 11, 0.12);
+  color: #f0b90b;
+  border: 1px solid rgba(240, 185, 11, 0.3);
+}
+
+.edi-nav-links {
+  display: flex;
+  gap: 28px;
+}
+
+.edi-nav-link {
+  font-family: var(--font-mono);
+  color: #848e9c;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.edi-nav-link:hover {
+  color: #f0b90b;
+}
+
+.edi-nav-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  color: #0b0e11;
+  background: linear-gradient(135deg, #f0b90b 0%, #fcd535 100%);
+  box-shadow: 0 8px 24px -8px rgba(240, 185, 11, 0.7);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+.edi-nav-cta:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+@media (max-width: 768px) {
+  .edi-nav-links {
+    display: none;
+  }
+}

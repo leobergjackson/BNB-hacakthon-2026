@@ -1,0 +1,22 @@
+{
+  "name": "emotional-duality-strategy",
+  "version": "1.0.0",
+  "display_name": "Emotional Duality Strategy (EDI v2)",
+  "description": "Detects rare moments when crypto markets simultaneously hold opposing extreme emotions — sustained Fear & Greed extremes contradicted by derivatives positioning and price momentum exhaustion. Based on Larsen & Cacioppo's bivariate emotion model. Fires ~5 high-conviction signals per year per asset.",
+  "author": "Rupesh Kumar V S",
+  "entry_point": "cmc_skill.py",
+  "callable": "analyze",
+  "parameters": {
+    "symbol": {"type": "string", "required": true, "description": "Crypto ticker (BTC, ETH, BNB)"},
+    "lookback_days": {"type": "integer", "default": 365, "description": "Historical lookback window"},
+    "include_backtest": {"type": "boolean", "default": true, "description": "Include backtest results in output"}
+  },
+  "outputs": {
+    "signal": "Current EDI signal state with evidence pack",
+    "backtest": "Historical performance metrics",
+    "regime": "Current market emotional regime classification"
+  },
+  "supported_assets": ["BTC", "ETH", "BNB"],
+  "data_sources": ["CoinMarketCap API", "Binance Public API", "Alternative.me Fear & Greed", "LunarCrush (optional)"],
+  "tags": ["sentiment", "contrarian", "derivatives", "behavioral-finance", "cognitive-science"]
+}

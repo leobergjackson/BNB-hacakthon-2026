@@ -1,19 +1,26 @@
-# NeuroSentiment Trader
+# Emotional Duality Strategy (EDI v2)
 
-An AI-driven trading agent designed for the **BNB Hack**. It autonomously reads market sentiment data from CoinMarketCap (via CMC AI Agent Hub), formulates trading strategies, and executes trades safely on the BNB Smart Chain (BSC) using the Trust Wallet Agent Kit (TWAK).
+An autonomous, self-custodial AI trading agent and CMC Skill that detects cognitive dissonance in crypto markets.
 
-## Architecture Overview
+## Project Structure
 
-The system is built on a modular Node.js architecture with the following core components:
+- **`/emotional-duality-skill/`**: The complete, production-ready CMC Skill package. Includes the signal engine, backtest engine, and a Streamlit demo.
+- **`/frontend/`**: A unified Next.js dashboard featuring a stunning UI and the fully embedded interactive Duality Map.
+- **`/submission/`**: Contains all documentation, deep-dives, architecture diagrams, and scripts prepared for the DoraHacks submission.
 
-*   **`/src/data`**: Responsible for interacting with the CoinMarketCap AI Agent Hub (MCP + x402) to fetch real-time price feeds, fear & greed indexes, sentiment scores, and social metrics.
-*   **`/src/strategy`**: The brain of the agent. It ingests data, evaluates current market regimes, and generates buy/sell signals based on AI sentiment models.
-*   **`/src/execution`**: Connects to the BNB Smart Chain. It uses the Trust Wallet Agent Kit (TWAK) for secure, self-custody transaction signing and trade execution (routing through DEXs on BSC).
-*   **`/src/risk`**: Implements safety guardrails. Monitors the portfolio's max drawdown, calculates dynamic position sizes, and halts trading if extreme volatility is detected.
-*   **`/src/agent`**: The main orchestrator loop. It wires all the modules together and dictates the tick cycle of the agent.
+## Getting Started
 
-## Setup
+To view the complete interactive dashboard with the Duality Map:
 
-1. Copy `.env.example` to `.env` and fill in your keys (CMC, BSC RPC, Private Key).
-2. Install dependencies: `npm install`
-3. Run the agent: `npm start`
+```bash
+# 1. Start the Streamlit backend demo
+cd emotional-duality-skill
+pip install -r requirements.txt
+streamlit run demo.py --server.port 8501
+
+# 2. Start the Next.js frontend (in a separate terminal)
+cd frontend
+npm install
+npm run dev
+```
+Visit `http://localhost:3000` to view the stunning Hero UI and Interactive Duality Map seamlessly merged into one page!
