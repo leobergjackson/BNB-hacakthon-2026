@@ -1,0 +1,65 @@
+{
+  "name": "RegimeShift",
+  "version": "1.0.0",
+  "description": "Detects crypto market regime transitions using CMC derivatives, on-chain, and sentiment data. Outputs backtestable strategy specs with entry/exit rules, position sizing, and invalidation conditions.",
+  "author": "RegimeShift Team",
+  "category": "strategy-generation",
+  "cmc_tools_used": [
+    "get_global_metrics_latest",
+    "get_global_crypto_derivatives_metrics",
+    "get_crypto_metrics",
+    "get_crypto_technical_analysis",
+    "get_crypto_quotes_latest",
+    "trending_crypto_narratives",
+    "get_crypto_latest_news",
+    "get_upcoming_macro_events",
+    "get_crypto_marketcap_technical_analysis",
+    "search_cryptos",
+    "get_crypto_info",
+    "search_crypto_info"
+  ],
+  "input_schema": {
+    "symbol": "string",
+    "timeframe": "enum:1d|4h|1w",
+    "risk_profile": "enum:conservative|moderate|aggressive",
+    "portfolio_size_usd": "number|optional"
+  },
+  "output_type": "strategy_spec",
+  "backtestable": true,
+  "requires_execution_layer": false,
+  "mcp_endpoint": "https://mcp.coinmarketcap.com/mcp",
+  "signal_layers": [
+    {
+      "name": "Derivatives Layer",
+      "signals": ["funding_rate", "open_interest", "liquidation_ratio"],
+      "weight": 0.25
+    },
+    {
+      "name": "On-Chain Layer",
+      "signals": ["whale_percentage", "exchange_net_flow", "active_addresses"],
+      "weight": 0.25
+    },
+    {
+      "name": "Technical Layer",
+      "signals": ["RSI", "MACD", "EMA50", "support_resistance", "fibonacci"],
+      "weight": 0.20
+    },
+    {
+      "name": "Sentiment Layer",
+      "signals": ["fear_greed_index", "trending_narratives", "news_sentiment"],
+      "weight": 0.30
+    }
+  ],
+  "regime_classifications": [
+    "BULL_REGIME",
+    "CAUTIOUS_BULL",
+    "CHOPPY",
+    "CAUTIOUS_BEAR",
+    "BEAR_REGIME"
+  ],
+  "divergence_patterns": [
+    "TOPPING_SIGNAL",
+    "BOTTOMING_SIGNAL",
+    "EARLY_MOVE_SIGNAL"
+  ]
+}

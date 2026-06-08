@@ -1,0 +1,134 @@
+{
+  "strategyName": "BTC Momentum Ride (BOTTOMING SIGNAL) — 4h",
+  "generatedAt": "2026-06-07T10:30:00.000Z",
+  "asset": "BTC",
+  "timeframe": "4h",
+  "regime": "BULL_REGIME",
+  "compositeScore": 0.55,
+  "conviction": 8,
+  "entryRules": {
+    "primaryTrigger": "Enter long when RSI(14) crosses above 35 from oversold AND price holds above $94,250.00 support level. Smart money accumulation detected — this is a contrarian entry.",
+    "confirmation": "Confirmation: Funding rate must be below 0.005% (currently fearful leverage = room for squeeze) AND exchange net outflow increasing (whales withdrawing from exchanges).",
+    "entryPriceZone": {
+      "low": 94250.00,
+      "high": 96135.00
+    }
+  },
+  "exitRules": {
+    "takeProfit1": {
+      "percentage": 3.0,
+      "positionSize": "50% of position",
+      "price": 99043.50
+    },
+    "takeProfit2": {
+      "price": 103800.00,
+      "description": "Resistance level at $103,800.00 — close remaining 50%"
+    },
+    "stopLoss": {
+      "price": 92836.25,
+      "percentage": 1.5
+    },
+    "trailingStop": {
+      "activateAt": "TP1 hit",
+      "trailPercentage": 2.5
+    },
+    "timeStop": {
+      "candles": 10,
+      "description": "Exit if no significant movement after 10 4h candles"
+    }
+  },
+  "positionSizing": {
+    "baseAllocation": 3,
+    "convictionMultiplier": 1.5,
+    "finalAllocation": 4.5,
+    "maxRiskPerTrade": 2,
+    "positionSizeUsd": 4500
+  },
+  "invalidation": [
+    "If Fear & Greed Index drops below 25 (currently 28), bullish thesis is invalidated.",
+    "If price closes below $91,422.50 (3% below nearest support), exit immediately.",
+    "If RSI(14) drops below 30 and MACD crosses bearish, regime has shifted.",
+    "If funding rate exceeds 0.05% (extreme greed in leverage), reduce position by 50%.",
+    "BOTTOMING divergence active: If smart money accumulation reverses (exchange inflow spikes), this signal is invalidated.",
+    "High-impact macro events detected in next 7 days. Consider reducing position size by 25% or exiting before event."
+  ],
+  "backtestParameters": {
+    "lookbackWindow": 90,
+    "dataFrequency": "4h",
+    "benchmark": "BTC total return over same period",
+    "entrySlippage": 0.1,
+    "exitSlippage": 0.15,
+    "transactionCost": 0.1,
+    "minSampleSize": 15
+  },
+  "riskFlags": [
+    "⚠️ HIGH IMPACT: US CPI Release on 2026-06-12",
+    "⚠️ HIGH IMPACT: FOMC Meeting on 2026-06-18"
+  ],
+  "signalBreakdown": {
+    "signals": [
+      {
+        "signal": "Leverage Sentiment (A)",
+        "rawValue": "Funding Rate: -0.0120% | OI: $18.5B | L/S Ratio: 0.88",
+        "label": "FEAR",
+        "score": -1,
+        "weight": 0.25,
+        "weightedScore": -0.25
+      },
+      {
+        "signal": "Smart Money (B)",
+        "rawValue": "Whale %: 52.1% | Exchange Flow: -$245M | Active Addrs: 850K",
+        "label": "ACCUMULATION",
+        "score": 1,
+        "weight": 0.25,
+        "weightedScore": 0.25
+      },
+      {
+        "signal": "Technical Bias (C)",
+        "rawValue": "RSI(14): 58.7 | MACD Hist: 125.3 | Price: $96,120 vs EMA50: $94,800 | Support: $94,250 | Resistance: $103,800",
+        "label": "BULLISH",
+        "score": 1,
+        "weight": 0.2,
+        "weightedScore": 0.2
+      },
+      {
+        "signal": "Narrative Heat (D)",
+        "rawValue": "In Top 5 Trending: YES (Bitcoin ETF Inflows) | Top Narratives: Bitcoin ETF Inflows, AI, Layer 2",
+        "label": "HOT",
+        "score": 1,
+        "weight": 0.1,
+        "weightedScore": 0.1
+      },
+      {
+        "signal": "Fear & Greed (E)",
+        "rawValue": "Fear & Greed: 28 (Fear) | BTC Dom: 56.8% | Altcoin Season: 32 | Market Cap 24h: -0.80%",
+        "label": "FEAR",
+        "score": -1,
+        "weight": 0.1,
+        "weightedScore": -0.1
+      },
+      {
+        "signal": "News Sentiment (F)",
+        "rawValue": "Overall: POSITIVE | Catalysts: 2 | Headlines: BlackRock BTC ETF sees record inflows | MicroStrategy adds 5K BTC | Fed hints at rate cut",
+        "label": "POSITIVE",
+        "score": 1,
+        "weight": 0.1,
+        "weightedScore": 0.1
+      }
+    ],
+    "compositeScore": 0.3
+  },
+  "divergencesDetected": [
+    {
+      "type": "BOTTOMING_SIGNAL",
+      "description": "Retail leverage is fearful (negative funding rates) while smart money is accumulating (whale buying + exchange outflows). This is a classic bottoming pattern — whales buy while retail capitulates.",
+      "convictionImpact": 2
+    }
+  ],
+  "marketDataSnapshot": {
+    "price": 96120.00,
+    "btcDominance": 56.8,
+    "fearGreedIndex": 28,
+    "totalMarketCap24hChange": -0.8
+  }
+}

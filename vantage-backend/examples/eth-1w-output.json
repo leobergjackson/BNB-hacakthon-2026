@@ -1,0 +1,124 @@
+{
+  "strategyName": "ETH Range Fade — 1w",
+  "generatedAt": "2026-06-07T10:30:00.000Z",
+  "asset": "ETH",
+  "timeframe": "1w",
+  "regime": "CHOPPY",
+  "compositeScore": 0.05,
+  "conviction": 1,
+  "entryRules": {
+    "primaryTrigger": "No trade. Wait for regime clarity. Composite score is in the neutral zone (-0.1 to +0.09).",
+    "confirmation": "Monitor for composite score to break above +0.1 (bullish) or below -0.1 (bearish) before entering.",
+    "entryPriceZone": {
+      "low": 0,
+      "high": 0
+    }
+  },
+  "exitRules": {
+    "takeProfit1": {
+      "percentage": 0,
+      "positionSize": "N/A — no trade",
+      "price": 0
+    },
+    "takeProfit2": {
+      "price": 0,
+      "description": "N/A — no trade"
+    },
+    "stopLoss": {
+      "price": 0,
+      "percentage": 0
+    },
+    "trailingStop": {
+      "activateAt": "N/A",
+      "trailPercentage": 0
+    },
+    "timeStop": {
+      "candles": 0,
+      "description": "N/A — no trade regime"
+    }
+  },
+  "positionSizing": {
+    "baseAllocation": 0,
+    "convictionMultiplier": 1.0,
+    "finalAllocation": 0,
+    "maxRiskPerTrade": 2,
+    "positionSizeUsd": 0
+  },
+  "invalidation": [
+    "If BTC dominance rises above 60.3% within 48h, this altcoin setup is invalidated (capital rotating to BTC).",
+    "If Fear & Greed Index drops below 25 (currently 48), bullish thesis is invalidated.",
+    "If price closes below $2,352.87 (3% below nearest support), exit immediately.",
+    "If RSI(14) drops below 30 and MACD crosses bearish, regime has shifted.",
+    "If funding rate exceeds 0.05% (extreme greed in leverage), reduce position by 50%."
+  ],
+  "backtestParameters": {
+    "lookbackWindow": 365,
+    "dataFrequency": "1w",
+    "benchmark": "BTC total return over same period",
+    "entrySlippage": 0.1,
+    "exitSlippage": 0.15,
+    "transactionCost": 0.1,
+    "minSampleSize": 15
+  },
+  "riskFlags": [],
+  "signalBreakdown": {
+    "signals": [
+      {
+        "signal": "Leverage Sentiment (A)",
+        "rawValue": "Funding Rate: 0.0045% | OI: $8.2B | L/S Ratio: 1.02",
+        "label": "NEUTRAL",
+        "score": 0,
+        "weight": 0.25,
+        "weightedScore": 0.0
+      },
+      {
+        "signal": "Smart Money (B)",
+        "rawValue": "Whale %: 41.5% | Exchange Flow: +$5.2M | Active Addrs: 520K",
+        "label": "NEUTRAL",
+        "score": 0,
+        "weight": 0.25,
+        "weightedScore": 0.0
+      },
+      {
+        "signal": "Technical Bias (C)",
+        "rawValue": "RSI(14): 49.2 | MACD Hist: -0.0003 | Price: $2,425.00 vs EMA50: $2,418.50 | Support: $2,325.00 | Resistance: $2,580.00",
+        "label": "NEUTRAL",
+        "score": 0,
+        "weight": 0.2,
+        "weightedScore": 0.0
+      },
+      {
+        "signal": "Narrative Heat (D)",
+        "rawValue": "In Top 5 Trending: NO | Top Narratives: AI, Memecoins, RWA",
+        "label": "WARM",
+        "score": 0,
+        "weight": 0.1,
+        "weightedScore": 0.0
+      },
+      {
+        "signal": "Fear & Greed (E)",
+        "rawValue": "Fear & Greed: 48 (Neutral) | BTC Dom: 55.3% | Altcoin Season: 50 | Market Cap 24h: +0.15%",
+        "label": "NEUTRAL",
+        "score": 0,
+        "weight": 0.1,
+        "weightedScore": 0.0
+      },
+      {
+        "signal": "News Sentiment (F)",
+        "rawValue": "Overall: NEUTRAL | Catalysts: 0 | Headlines: ETH staking rewards steady | Vitalik discusses Pectra upgrade timeline | Ethereum Foundation treasury report",
+        "label": "NEUTRAL",
+        "score": 0,
+        "weight": 0.1,
+        "weightedScore": 0.05
+      }
+    ],
+    "compositeScore": 0.05
+  },
+  "divergencesDetected": [],
+  "marketDataSnapshot": {
+    "price": 2425.00,
+    "btcDominance": 55.3,
+    "fearGreedIndex": 48,
+    "totalMarketCap24hChange": 0.15
+  }
+}

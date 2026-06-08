@@ -1,0 +1,126 @@
+{
+  "strategyName": "BNB Cautious Accumulation — 1d",
+  "generatedAt": "2026-06-07T10:30:00.000Z",
+  "asset": "BNB",
+  "timeframe": "1d",
+  "regime": "CAUTIOUS_BULL",
+  "compositeScore": 0.35,
+  "conviction": 6,
+  "entryRules": {
+    "primaryTrigger": "Enter long when RSI(14) crosses above 45 AND price reclaims EMA50 ($685.20) from below with increasing volume.",
+    "confirmation": "Confirmation: Funding rate below 0.005% AND MACD signal line crossing above zero AND volume 24h exceeds prior day by 15%.",
+    "entryPriceZone": {
+      "low": 672.50,
+      "high": 685.95
+    }
+  },
+  "exitRules": {
+    "takeProfit1": {
+      "percentage": 6.25,
+      "positionSize": "50% of position",
+      "price": 733.56
+    },
+    "takeProfit2": {
+      "price": 748.30,
+      "description": "Resistance level at $748.30 — close remaining 50%"
+    },
+    "stopLoss": {
+      "price": 662.42,
+      "percentage": 1.5
+    },
+    "trailingStop": {
+      "activateAt": "TP1 hit",
+      "trailPercentage": 3.5
+    },
+    "timeStop": {
+      "candles": 15,
+      "description": "Exit if no significant movement after 15 1d candles"
+    }
+  },
+  "positionSizing": {
+    "baseAllocation": 5,
+    "convictionMultiplier": 1.25,
+    "finalAllocation": 6.25,
+    "maxRiskPerTrade": 2,
+    "positionSizeUsd": 6250
+  },
+  "invalidation": [
+    "If BTC dominance rises above 59.2% within 48h, this altcoin setup is invalidated (capital rotating to BTC).",
+    "If Fear & Greed Index drops below 25 (currently 62), bullish thesis is invalidated.",
+    "If price closes below $652.33 (3% below nearest support), exit immediately.",
+    "If RSI(14) drops below 30 and MACD crosses bearish, regime has shifted.",
+    "If funding rate exceeds 0.05% (extreme greed in leverage), reduce position by 50%."
+  ],
+  "backtestParameters": {
+    "lookbackWindow": 180,
+    "dataFrequency": "1d",
+    "benchmark": "BTC total return over same period",
+    "entrySlippage": 0.1,
+    "exitSlippage": 0.15,
+    "transactionCost": 0.1,
+    "minSampleSize": 15
+  },
+  "riskFlags": [
+    "⚠️ HIGH IMPACT: FOMC Meeting on 2026-06-18"
+  ],
+  "signalBreakdown": {
+    "signals": [
+      {
+        "signal": "Leverage Sentiment (A)",
+        "rawValue": "Funding Rate: 0.0085% | OI: $4.21B | L/S Ratio: 1.15",
+        "label": "NEUTRAL",
+        "score": 0,
+        "weight": 0.25,
+        "weightedScore": 0.0
+      },
+      {
+        "signal": "Smart Money (B)",
+        "rawValue": "Whale %: 47.2% | Exchange Flow: -$12.5M | Active Addrs: 1.2M",
+        "label": "ACCUMULATION",
+        "score": 1,
+        "weight": 0.25,
+        "weightedScore": 0.25
+      },
+      {
+        "signal": "Technical Bias (C)",
+        "rawValue": "RSI(14): 52.3 | MACD Hist: 0.0012 | Price: $690.45 vs EMA50: $685.20 | Support: $672.50 | Resistance: $748.30",
+        "label": "BULLISH",
+        "score": 1,
+        "weight": 0.2,
+        "weightedScore": 0.2
+      },
+      {
+        "signal": "Narrative Heat (D)",
+        "rawValue": "In Top 5 Trending: NO | Top Narratives: AI, Layer 2, DePIN",
+        "label": "WARM",
+        "score": 0,
+        "weight": 0.1,
+        "weightedScore": 0.0
+      },
+      {
+        "signal": "Fear & Greed (E)",
+        "rawValue": "Fear & Greed: 62 (Greed) | BTC Dom: 54.2% | Altcoin Season: 45 | Market Cap 24h: +1.30%",
+        "label": "NEUTRAL",
+        "score": 0,
+        "weight": 0.1,
+        "weightedScore": 0.0
+      },
+      {
+        "signal": "News Sentiment (F)",
+        "rawValue": "Overall: NEGATIVE | Catalysts: 1 | Headlines: BNB Chain announces zkBNB upgrade | SEC considers new crypto framework | Binance volume drops 15% MoM",
+        "label": "NEGATIVE",
+        "score": -1,
+        "weight": 0.1,
+        "weightedScore": -0.1
+      }
+    ],
+    "compositeScore": 0.35
+  },
+  "divergencesDetected": [],
+  "marketDataSnapshot": {
+    "price": 690.45,
+    "btcDominance": 54.2,
+    "fearGreedIndex": 62,
+    "totalMarketCap24hChange": 1.3
+  }
+}

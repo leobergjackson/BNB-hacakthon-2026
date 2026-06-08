@@ -1,0 +1,36 @@
+{
+  "name": "regimeshift-skill",
+  "version": "1.0.0",
+  "description": "Detects crypto market regime transitions using CMC derivatives, on-chain, and sentiment data. Outputs backtestable strategy specs.",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "demo": "bash demo/demo.sh",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "coinmarketcap",
+    "mcp",
+    "crypto",
+    "trading",
+    "regime-detection",
+    "strategy",
+    "bnb-hack"
+  ],
+  "author": "RegimeShift Team",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.1",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.5",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}

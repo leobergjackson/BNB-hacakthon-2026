@@ -10,6 +10,7 @@ from cmc_skill import analyze, EmotionalDualitySkill
 from core.data_clients import BinanceClient, FNGClient, FundingClient
 from core.edi_signal import compute_edi_v2
 from core.backtest import StrategyRules, PositionSizing, PortfolioSimulator
+from bridge import run_bridge
 
 # --- PAGE CONFIG ---
 st.set_page_config(
@@ -156,14 +157,34 @@ if "data_loaded" not in st.session_state:
 
 if run_btn or not st.session_state.data_loaded:
     with st.spinner("Analyzing market psychology and computing duality..."):
-        price_df, fng_df, funding_df, edi_df = fetch_full_data(symbol, lookback)
-        evidence_pack = fetch_evidence_pack(symbol, lookback)
-        
+        edi_data_error = None
+        try:
+            price_df, fng_df, funding_df, edi_df = fetch_full_data(symbol, lookback)
+        except Exception as e:
+            # Market data source unreachable — degrade gracefully (the charts below
+            # already guard on empty frames). Failure is not cached, so a later rerun
+            # retries once the source is reachable again.
+            price_df = fng_df = funding_df = edi_df = pd.DataFrame()
+            edi_data_error = str(e)
+        try:
+            evidence_pack = fetch_evidence_pack(symbol, lookback)
+        except Exception as e:
+            evidence_pack = {"status": "blocked", "error_message": str(e), "analysis": None}
+            edi_data_error = edi_data_error or str(e)
+
+        # Unified bridge: reuse the EDI evidence pack, add Vantage regime confirmation
+        try:
+            unified = asyncio.run(run_bridge(symbol, timeframe="1d", edi_pack=evidence_pack))
+        except Exception as e:
+            unified = {"error": str(e)}
+
         st.session_state.price_df = price_df
         st.session_state.fng_df = fng_df
         st.session_state.funding_df = funding_df
         st.session_state.edi_df = edi_df
         st.session_state.evidence_pack = evidence_pack
+        st.session_state.unified = unified
+        st.session_state.edi_data_error = edi_data_error
         st.session_state.data_loaded = True
 
 price_df = st.session_state.price_df
@@ -171,6 +192,15 @@ fng_df = st.session_state.fng_df
 funding_df = st.session_state.funding_df
 edi_df = st.session_state.edi_df
 pack = st.session_state.evidence_pack
+unified = st.session_state.get("unified")
+edi_data_error = st.session_state.get("edi_data_error")
+
+if edi_data_error:
+    st.warning(
+        f"Live EDI market data is temporarily unavailable ({edi_data_error[:140]}). "
+        "EDI charts will populate once the data source is reachable — the Vantage regime "
+        "confirmation below still renders from the regime engine."
+    )
 
 # Top Metrics
 col1, col2, col3 = st.columns(3)
@@ -268,6 +298,109 @@ if len(price_df) > 0 and len(fng_df) > 0:
 
 if len(fires) == 0:
     st.info("No emotional duality detected in this period — the market's emotions are aligned. EDI is a sniper strategy and only fires during extreme dissonance.")
+
+# --- VANTAGE REGIME CONFIRMATION (THE UNIFIED SIGNAL) ---
+st.markdown("---")
+st.subheader("Vantage Regime Confirmation")
+st.caption("EDI v2 detects the emotional duality · Vantage confirms the market regime · the two merge into one conviction-weighted call.")
+
+if not unified or unified.get("error"):
+    st.warning(f"Unified signal unavailable: {unified.get('error') if unified else 'not computed yet'}")
+else:
+    vspec = unified.get("vantage_regime", {})
+    action = unified.get("recommended_action", "NO_TRADE")
+    ACTION_COLORS = {"BUY": "#10b981", "SELL": "#ef4444", "HOLD": "#F5C518", "NO_TRADE": "#888888"}
+    REGIME_COLORS = {
+        "BULL_REGIME": "#10b981", "CAUTIOUS_BULL": "#84cc16", "CHOPPY": "#888888",
+        "CAUTIOUS_BEAR": "#f97316", "BEAR_REGIME": "#ef4444",
+    }
+    ac = ACTION_COLORS.get(action, "#888888")
+    src = unified.get("vantage_source", "live")
+    src_badge = "🟢 LIVE (CMC MCP)" if src == "live" else "📦 EXAMPLE FIXTURE"
+
+    # HERO CARD — full width
+    st.markdown(f"""
+    <div style="background:linear-gradient(135deg,#1a1a2e,#16213e);border-left:6px solid #F5C518;
+                border-radius:12px;padding:22px 28px;margin-bottom:18px;box-shadow:0 4px 14px rgba(0,0,0,0.4);">
+      <div style="font-size:13px;color:#888;letter-spacing:3px;font-weight:600;">UNIFIED SIGNAL</div>
+      <div style="font-size:52px;font-weight:800;color:{ac};line-height:1.1;margin:2px 0;">{action.replace('_',' ')}</div>
+      <div style="font-size:14px;color:#bbb;margin-top:6px;">{unified.get('rationale','')}</div>
+      <div style="font-size:12px;color:#666;margin-top:10px;">
+        Unified conviction <b style="color:#F5C518;">{unified.get('unified_conviction',0):.2f}</b> &nbsp;·&nbsp;
+        Direction <b style="color:#ccc;">{unified.get('direction','—')}</b> &nbsp;·&nbsp;
+        Vantage source <b style="color:#ccc;">{src_badge}</b>
+      </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    regime = vspec.get("regime", "UNKNOWN")
+    rc = REGIME_COLORS.get(regime, "#888888")
+    score = vspec.get("compositeScore", 0) or 0
+    conv = vspec.get("conviction", 0) or 0
+
+    colV1, colV2, colV3 = st.columns(3)
+
+    # LEFT: regime badge + zero-centered composite score bar
+    with colV1:
+        st.markdown("**Market Regime**")
+        st.markdown(
+            f'<span style="background:{rc}22;color:{rc};border:1px solid {rc};padding:5px 14px;'
+            f'border-radius:14px;font-weight:700;font-size:14px;">{regime.replace("_"," ")}</span>',
+            unsafe_allow_html=True,
+        )
+        marker = (max(-1, min(1, score)) + 1) / 2 * 100
+        fill = "#10b981" if score >= 0 else "#ef4444"
+        st.markdown(f"""
+        <div style="margin-top:16px;font-size:12px;color:#888;">Composite score:
+            <b style="color:{fill};">{score:+.2f}</b></div>
+        <div style="position:relative;height:10px;background:#2a2a3a;border-radius:5px;margin-top:6px;">
+          <div style="position:absolute;left:50%;top:-3px;height:16px;width:2px;background:#555;"></div>
+          <div style="position:absolute;left:{marker:.1f}%;top:-4px;height:18px;width:5px;background:{fill};
+                      border-radius:2px;transform:translateX(-50%);"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#555;margin-top:4px;">
+          <span>-1 bear</span><span>0</span><span>+1 bull</span>
+        </div>
+        """, unsafe_allow_html=True)
+
+    # MIDDLE: conviction gauge + divergence tags
+    with colV2:
+        st.markdown("**Conviction**")
+        st.markdown(
+            f'<div style="font-size:44px;font-weight:800;color:#F5C518;line-height:1;">{conv}'
+            f'<span style="font-size:18px;color:#888;">/10</span></div>',
+            unsafe_allow_html=True,
+        )
+        divs = vspec.get("divergencesDetected", []) or []
+        if divs:
+            st.markdown('<div style="margin-top:12px;font-size:12px;color:#888;">Divergence detected</div>',
+                        unsafe_allow_html=True)
+            for d in divs:
+                dt = d.get("type", "")
+                dcol = "#10b981" if "BOTTOM" in dt else "#ef4444" if "TOP" in dt else "#F5C518"
+                st.markdown(
+                    f'<span style="background:{dcol}22;color:{dcol};border:1px solid {dcol};'
+                    f'padding:3px 10px;border-radius:12px;font-size:11px;font-weight:600;'
+                    f'display:inline-block;margin-top:6px;">⚡ {dt.replace("_"," ")}</span>',
+                    unsafe_allow_html=True,
+                )
+        else:
+            st.caption("No divergence detected")
+
+    # RIGHT: entry/exit summary
+    with colV3:
+        st.markdown("**Entry / Exit**")
+        trigger = vspec.get("entryRules", {}).get("primaryTrigger", "—")
+        trigger_short = (trigger[:115] + "…") if len(trigger) > 115 else trigger
+        st.caption(trigger_short)
+        tp1 = vspec.get("exitRules", {}).get("takeProfit1", {}).get("percentage", 0) or 0
+        sl = vspec.get("exitRules", {}).get("stopLoss", {}).get("percentage", 0) or 0
+        m1, m2 = st.columns(2)
+        m1.metric("TP1", f"+{tp1:.1f}%")
+        m2.metric("Stop", f"-{sl:.1f}%")
+
+    with st.expander("Full Strategy Spec (Vantage regime engine output)"):
+        st.json(vspec)
 
 # --- BACKTEST RESULTS & SIGNAL DETAIL ---
 if len(fires) > 0 and pack['status'] == 'success':
