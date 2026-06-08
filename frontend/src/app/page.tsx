@@ -130,24 +130,15 @@ export default function Home() {
       <HowItWorks />
       <StatsBar />
       <main className="app-shell" id="dashboard" style={{ marginTop: 0 }}>
-        {/* Streamlit Embedded Interactive Demo */}
-        <section style={{ marginBottom: "48px", width: "100%" }}>
-          <div style={{ padding: "0 28px", marginBottom: "16px" }}>
-            <p className="page-eyebrow gradient-text" style={{ margin: "0 0 6px" }}>Live Backtest</p>
-            <h2 style={{ fontSize: "28px", fontWeight: 900, letterSpacing: "-0.03em", color: "#eaecef", margin: "0" }}>Interactive Duality Map</h2>
-            <p style={{ color: "#64748b", margin: "6px 0 0" }}>Live backtesting and visualization powered by Streamlit and Plotly.</p>
-          </div>
-          <iframe 
-            src="http://localhost:8501/?embed=true" 
-            style={{ 
-              width: "100%", 
-              height: "1000px", 
-              border: "none", 
-              borderRadius: "16px",
-              boxShadow: "0 18px 50px rgba(33, 39, 35, 0.11)",
-              background: "#0a0a0a"
-            }} 
-          />
+        {/* Interactive Duality Map intro — fully in-browser, no backend */}
+        <section style={{ marginBottom: "28px", width: "100%", padding: "0 28px" }}>
+          <p className="page-eyebrow gradient-text" style={{ margin: "0 0 6px" }}>Live Backtest</p>
+          <h2 style={{ fontSize: "28px", fontWeight: 900, letterSpacing: "-0.03em", color: "#eaecef", margin: "0" }}>Interactive Duality Map</h2>
+          <p style={{ color: "#848e9c", margin: "6px 0 0", maxWidth: 660 }}>
+            Pick an asset, timeframe and risk profile — the strategy spec and a no-lookahead backtest
+            are computed live in your browser. Uses CoinMarketCap data when a key is configured, with
+            a deterministic demo dataset otherwise. No backend required.
+          </p>
         </section>
 
         <section className="workspace-grid">
@@ -559,7 +550,7 @@ function TerminalPanel({ report }: { report: StrategyResponse }) {
         <div className="terminal-body" style={{ fontFamily: "monospace", fontSize: "13px", color: "#e2e8f0" }}>
           <p className="terminal-command" style={{ marginBottom: "12px" }}>
             <span style={{ color: "#10b981", marginRight: "8px" }}>$</span> 
-            python app.py --symbol {report.spec.asset} --risk {report.request.riskProfile}
+            edi analyze --symbol {report.spec.asset} --risk {report.request.riskProfile}
           </p>
           <p style={{ margin: "4px 0" }}><span style={{ color: "#848e9c", width: "80px", display: "inline-block" }}>00:00.000</span> <span style={{ color: "#3b82f6", width: "60px", display: "inline-block" }}>boot</span> Emotional Duality Agent initialized</p>
           <p style={{ margin: "4px 0" }}><span style={{ color: "#848e9c", width: "80px", display: "inline-block" }}>00:00.041</span> <span style={{ color: "#f59e0b", width: "60px", display: "inline-block" }}>source</span> Fetched {report.dataset.candleCount} days from CMC/Binance</p>
